@@ -4,6 +4,11 @@
     <main class="h-full pb-16 overflow-y-auto">
         <div class="container px-6 mx-auto grid">
             <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Your Posts</h2>
+
+            @unless(count($posts))
+                <span>{{__('You have 0 posts')}}, <a class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href="{{route('post.new')}}">{{__('create new one ?')}}</a></span>
+            @endunless
+
             <div class="grid gap-6 mb-8 md:grid-cols-2">
                 @foreach($posts as $post)
                     <div class="min-w-0 p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
