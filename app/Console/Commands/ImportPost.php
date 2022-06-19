@@ -44,6 +44,10 @@ class ImportPost extends Command
         try {
             $endpoint = config('post.import_endpoint');
 
+            if (!$endpoint) {
+                throw new \Exception("Please set an API endpoint in your config file");
+            }
+
             $response = Http::get($endpoint);
 
             if ($response->status() !== 200) {
@@ -78,7 +82,7 @@ class ImportPost extends Command
         } catch (\Exception $exception) {
             $this->error($exception->getMessage());
 
-            return $exception->getCode();
+            return 1;
         }
     }
 }
