@@ -36,7 +36,6 @@ docker exec db mysql -u root -psecret -e "create database blog"
 
 
 ## 7. Setup .env file
-File: `.env`
 ```bash
 DB_CONNECTION=mysql
 DB_HOST=db
