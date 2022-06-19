@@ -13,7 +13,14 @@ class PostController extends Controller
     public function get_all_posts()
     {
         $page = request('page', 1);
-        $sort = request('sort', 'desc');
+
+        $defaultSort = 'desc';
+        $sort        = request('sort', $defaultSort);
+        $validSorts  = ['asc', 'desc'];
+
+        if (!in_array($sort, $validSorts)) {
+            $sort = $defaultSort;
+        }
 
         $cacheKey = "posts_{$page}_{$sort}";
 
