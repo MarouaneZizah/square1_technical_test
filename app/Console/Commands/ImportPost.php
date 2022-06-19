@@ -69,7 +69,5 @@ class ImportPost extends Command
                 'publication_date' => $post['publication_date'],
             ]);
         }
-
-        Cache::flush();
     }
 }
