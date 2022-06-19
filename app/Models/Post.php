@@ -18,17 +18,17 @@ class Post extends Model
         'user_id',
     ];
 
+    protected $appends = [
+        'short_description',
+    ];
 
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
-    protected static function booted()
+    public function getShortDescriptionAttribute(): string
     {
-        static::creating(function ($post) {
-            $post->slug = Str::slug($post->title, "_");
-        });
+        if (!$this->description) {
+            return "";
+        }
+
+        return Str::limit($this->description, 200);
     }
 
     public function user(): BelongsTo
