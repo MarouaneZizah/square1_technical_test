@@ -38,7 +38,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-0 transition duration-500 ease select-none hover:bg-teal-600 focus:outline-none focus:shadow-outline">
                                     {{ __('Send Password Reset Link') }}
                                 </button>
                             </div>
