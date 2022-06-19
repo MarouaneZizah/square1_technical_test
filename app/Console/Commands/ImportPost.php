@@ -40,34 +40,46 @@ class ImportPost extends Command
      * @return int
      * @throws \Exception
      */
-    public function handle()
+    public function handle(): int
     {
-        $endpoint = config('post.import_endpoint');
+        try {
+            $endpoint = config('post.import_endpoint');
 
-        $response = Http::get($endpoint);
+            $response = Http::get($endpoint);
 
-        if ($response->status() !== 200) {
-            throw new \Exception("API returned {$response->status()} status code");
-        }
+            if ($response->status() !== 200) {
+                throw new \Exception("API returned {$response->status()} status code");
+            }
 
-        $data = $response->json('data');
+            $data = $response->json('data');
 
-        if (!$data) {
-            throw new \Exception("No Posts to import");
-        }
+            if (!$data) {
+                $this->info("No Posts to import!");
 
-        $admin = User::admin()->first();
+                return 0;
+            }
 
-        if (!$admin) {
-            throw new \Exception("Can't find admin user");
-        }
+            $admin = User::admin()->first();
 
-        foreach ($data as $post) {
-            $admin->posts()->create([
-                'title'            => $post['title'],
-                'description'      => $post['description'],
-                'publication_date' => $post['publication_date'],
-            ]);
+            if (!$admin) {
+                throw new \Exception("Can't find admin user");
+            }
+
+            foreach ($data as $post) {
+                $admin->posts()->create([
+                    'title'            => $post['title'],
+                    'description'      => $post['description'],
+                    'publication_date' => $post['publication_date'],
+                ]);
+            }
+
+            $this->info(count($data).' posts have been imported.');
+
+            return 0;
+        } catch (\Exception $exception) {
+            $this->error($exception->getMessage());
+
+            return $exception->getCode();
         }
     }
 }
