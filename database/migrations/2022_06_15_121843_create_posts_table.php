@@ -21,8 +21,6 @@ return new class extends Migration {
             $table->timestamp('publication_date')->index();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
-
-            $table->index(['user_id', 'publication_date']);
         });
     }
 
