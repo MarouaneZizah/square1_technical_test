@@ -14,18 +14,25 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     locales \
     jpegoptim optipng pngquant gifsicle \
+    libzip-dev \
+    zip \
+    unzip \
+    libsodium-dev \
     vim \
+    nano \
     git \
-    curl
+    curl \
 
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
-RUN apt-get install -y nodejs
-
-# Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install extensions
+RUN docker-php-ext-install pdo_mysql zip exif sodium pcntl
+
+# Install extensions
 RUN docker-php-ext-install pdo_mysql exif pcntl
+
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get install -y nodejs
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
