@@ -15,7 +15,12 @@ class Post extends Model
         'title',
         'slug',
         'description',
+        'publication_date',
         'user_id',
+    ];
+
+    protected $casts = [
+        'publication_date' => 'datetime'
     ];
 
     protected $appends = [
