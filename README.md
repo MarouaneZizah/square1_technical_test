@@ -73,7 +73,7 @@ docker exec app php artisan schedule:work
 
 Or just launch this artisan command to test the functionality immediately without waiting every hour
 ```bash
-php artisan post:import
+docker exec app php artisan post:import
 ```
 
 # Tests
