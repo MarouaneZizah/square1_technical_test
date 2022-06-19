@@ -17,7 +17,7 @@ class PostObserver
      */
     public function creating(Post $post)
     {
-        $post->slug = Str::slug($post->title, "_");
+        $post->slug = Str::slug($post->title, "_") . '-' . md5(random_int(2,10000));
     }
 
     /**
