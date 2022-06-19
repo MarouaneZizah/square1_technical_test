@@ -25,7 +25,6 @@ docker-compose exec app cp .env.example .env
 ## 5. Generate key
 ```bash
 docker-compose exec app php artisan key:generate
-docker-compose exec app php artisan migrate
 ```
 
 ## 6. Create Database
