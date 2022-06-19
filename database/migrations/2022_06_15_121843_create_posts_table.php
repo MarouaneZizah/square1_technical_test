@@ -18,8 +18,11 @@ return new class extends Migration {
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('description');
-            $table->foreignIdFor(User::class)->constrained();
+            $table->timestamp('publication_date')->index();
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
+
+            $table->index(['user_id', 'publication_date']);
         });
     }
 
