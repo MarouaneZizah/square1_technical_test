@@ -6,13 +6,19 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
+use App\Http\Requests\StorePostRequest;
 
 class PostController extends Controller
 {
     public function get_all_posts()
     {
-        $posts = Cache::remember('posts', 3600, function () {
-            return Post::with('user')->get();
+        $page = request('page', 1);
+        $sort = request('sort', 'desc');
+
+        $cacheKey = "posts_{$page}_{$sort}";
+
+        $posts = Cache::tags(['posts'])->rememberForever($cacheKey, function () use ($sort) {
+            return Post::with('user')->orderBy('publication_date', $sort)->paginate(10)->withQueryString();
         });
 
         return view('home', compact('posts'));
@@ -20,10 +26,29 @@ class PostController extends Controller
 
     public function view($slug)
     {
-        $post = Cache::rememberForever('post_'.$slug, function () use ($slug) {
+        $cacheKey = "post_".$slug;
+
+        $post = Cache::tags(['post'])->rememberForever($cacheKey, function () use ($slug) {
             return Post::with('user')->where('slug', $slug)->firstOrFail();
         });
 
         return view('post_view', compact('post'));
+    }
+
+    public function new()
+    {
+        return view('dashboard.posts.new');
+    }
+
+    public function store(StorePostRequest $request)
+    {
+        Post::create([
+            'user_id'          => auth()->id(),
+            'title'            => $request->title,
+            'description'      => $request->description,
+            'publication_date' => now(),
+        ]);
+
+        return redirect()->route('dashboard')->with('success', __('Post published successfully!'));
     }
 }
