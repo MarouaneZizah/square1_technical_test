@@ -14,14 +14,12 @@
             <div class="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
                 <header class="pt-6 xl:pb-6">
                     <div class="space-y-1 text-center">
-                        <dl class="space-y-10">
-                            <div>
-                                <dt class="sr-only">Published on</dt>
-                                <dd class="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                                    <time datetime="2021-05-02T00:00:00.000Z">{{$post->created_at->format('l, F d, Y')}}</time>
-                                </dd>
+                        <div class="space-y-10">
+                            <div class="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                                <span>{{$post->publication_date->format('l, F d, Y')}}</span>
                             </div>
-                        </dl>
+                        </div>
+
                         <div>
                             <h1 class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14">
                                 {{$post->title}}
@@ -31,20 +29,17 @@
                 </header>
 
                 <div class="divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:grid xl:grid-cols-4 xl:gap-x-6 xl:divide-y-0" style="grid-template-rows: auto 1fr;">
-                    <dl class="pt-6 pb-10 xl:border-b xl:border-gray-200 xl:pt-11 xl:dark:border-gray-700">
-                        <dt class="sr-only">Author</dt>
-
-                        <dd>
+                    <div class="pt-6 pb-10 xl:pt-11">
+                        <div>
                             <ul class="flex justify-center space-x-8 sm:space-x-12 xl:block xl:space-x-0 xl:space-y-8">
                                 <li class="flex items-center space-x-2">
-                                    <dl class="whitespace-nowrap text-sm font-medium leading-5">
-                                        <dt class="sr-only">Name</dt>
-                                        <dd class="text-gray-900 dark:text-gray-100">{{$post->user->name}}</dd>
-                                    </dl>
+                                    <div class="whitespace-nowrap text-sm font-medium leading-5">
+                                        <span class="text-gray-900 dark:text-gray-100">{{__('Author')}} : {{$post->user->name}}</span>
+                                    </div>
                                 </li>
                             </ul>
-                        </dd>
-                    </dl>
+                        </div>
+                    </div>
 
                     <div class="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
                         <div class="prose max-w-none pt-10 pb-8 dark:prose-dark">
@@ -56,7 +51,7 @@
                         <div class="pt-4 xl:pt-8">
                             <a class="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
                                href="{{route('home')}}">
-                                ← Back to the blog
+                                ← {{__('Back to the blog')}}
                             </a>
                         </div>
                     </footer>

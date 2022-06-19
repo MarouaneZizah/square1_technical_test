@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,8 +17,15 @@ use App\Http\Controllers\PostController;
 
 Auth::routes();
 
-Route::get('/', [PostController::class, 'get_all_posts'])->name('home');
-Route::get('/post/{post:slug}', [PostController::class, 'view'])->name('post.view');
-Route::get('/user/{user}/posts', [PostController::class, 'get_post_view'])->name('user.posts');
+Route::get('/', function () {
+    return redirect('/home');
+});
 
-Route::get('/dashboard', [PostController::class, 'get_all_posts'])->name('dashboard');
+Route::get('/home', [PostController::class, 'get_all_posts'])->name('home');
+Route::get('/post/{post:slug}', [PostController::class, 'view'])->name('post.view');
+
+Route::middleware(['auth'])->group(function() {
+    Route::get('/dashboard', [UserController::class, 'get_published_posts'])->name('dashboard');
+    Route::get('/dashboard/post/new', [PostController::class, 'new'])->name('post.new');
+    Route::post('/dashboard/post/store', [PostController::class, 'store'])->name('post.create');
+});
