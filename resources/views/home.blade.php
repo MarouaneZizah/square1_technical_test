@@ -7,21 +7,28 @@
         <div class="space-y-2 pt-6 pb-8 md:space-y-5">
             <h1 class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">{{__('Home')}}</h1>
 
-            <div class="flex items-center">
-                Sort By :
+            @unless (count($posts))
+                <h5 class="text-center text-xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:leading-10 md:leading-14">{{__('No posts')}}</h5>
+            @endunless
 
-                <a href="{{route('home', ['sort' => 'desc'])}}"
-                   class="text-gray-900 block px-4 py-2 text-sm {{URL::full() === route('home', ['sort' => 'desc']) ? "font-medium" : ""}}">
-                    Newest
-                </a>
+            @if(count($posts))
+                <div class="flex items-center">
+                    {{__('Sort By')}} :
 
-                <a href="{{route('home', ['sort' => 'asc'])}}"
-                   class="text-gray-900 block px-4 py-2 text-sm {{URL::full() === route('home', ['sort' => 'asc']) ? "font-medium" : ""}}">
-                    Oldest
-                </a>
-            </div>
+                    <a href="{{route('home', ['sort' => 'desc'])}}"
+                       class="text-gray-900 block px-4 py-2 text-sm {{URL::full() === route('home', ['sort' => 'desc']) ? "font-medium" : ""}}">
+                        {{__('Newest')}}
+                    </a>
+
+                    <a href="{{route('home', ['sort' => 'asc'])}}"
+                       class="text-gray-900 block px-4 py-2 text-sm {{URL::full() === route('home', ['sort' => 'asc']) ? "font-medium" : ""}}">
+                        {{__('Oldest')}}
+                    </a>
+                </div>
+            @endif
         </div>
 
+        @if(count($posts))
         <ul class="divide-y divide-gray-200 dark:divide-gray-700">
             @foreach($posts as $post)
                 <li class="py-12">
@@ -63,6 +70,7 @@
                 </li>
             @endforeach
         </ul>
+        @endif
     </div>
 
     <div class="flex justify-end text-base font-medium leading-6">

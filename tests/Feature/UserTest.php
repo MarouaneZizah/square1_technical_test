@@ -68,4 +68,9 @@ class UserTest extends TestCase
                  'Post 2'
              ]);
     }
+
+    public function test_can_see_text_if_no_post_exist_in_home_page()
+    {
+        $this->get(route('home', ['sort' => 'desc']))->assertSee('No post');
+    }
 }
